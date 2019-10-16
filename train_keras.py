@@ -22,10 +22,12 @@ from preprocess import load_vocab_from, to_word_ids
 from sklearn.metrics import precision_recall_fscore_support
 
 parser = argparse.ArgumentParser(description='train.py')
-parser.add_argument('-data', required=True, \
+parser.add_argument('-data', required=True,
                     help='Prefix to the *_train.txt file.')
+parser.add_argument('-embeddings_dir', required=True,
+                    help='The embeddings dir')
 opt = parser.parse_args()
-pretrained_embeddings_file = 'bio_nlp_vec/PubMed-shuffle-win-2.txt'
+pretrained_embeddings_file = os.path.join(opt.embeddings_dir, 'PubMed-shuffle-win-2.txt')
 
 # hyperparameters
 epochs = 100
@@ -40,7 +42,7 @@ categories = dict([
     ('N', 0),
     ('P', 1),
     ])
-category_keys = [k[0] for k in sorted(categories.iteritems(), key=lambda (k, v): v)]
+category_keys = [k[0] for k in sorted(categories.items(), key=lambda k, v: v)]
 num_output_class = len(categories)
 
 # embedding array
@@ -115,7 +117,7 @@ def main():
 
     def build_model():
         model = Sequential()
-        model.add(Embedding(len(train_vocab), hidden_size, weights=[embedding_array],\
+        model.add(Embedding(len(train_vocab), hidden_size, weights=[embedding_array],
                             input_length=max_sequence_length))
         model.add(Dropout(dropout_rate))
         model.add(Bidirectional(LSTM(rnn_hidden_size)))
@@ -137,7 +139,7 @@ def main():
         fscore_cb = FscoreLogCallback(log_file)
         model = build_model()
         print("Fold {}".format(fold_id))
-        model.fit(x_train, y_train, epochs=epochs, batch_size=batch_size, \
+        model.fit(x_train, y_train, epochs=epochs, batch_size=batch_size,
                   callbacks=[fscore_cb], verbose=2)
         predicted = np.argmax(model.predict(x_test), axis=1)
         y_test_to_label = np.argmax(y_test, axis=1)
