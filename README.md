@@ -1,16 +1,13 @@
 # Protein-protein interaction classification with LSTM-RNN in Keras
 Biology-related word embeddings can be downloaded from https://github.com/cambridgeltl/BioNLP-2016, and put in bio_nlp_vec/PubMed-shuffle-win-2.txt
 
-## Create vocab
+## Create vocab & run
 
 ```bash
-python vocab_creator.py -datadir AIMED -outputfile AIMED/AIMed_tokenized.vocab
-```
+#specify enter directory
+export data_dir=AIMED
 
-
-## Run 
-How to run
-```bash
-python train_keras.py  -data  AIMED/AIMed_tokenized -embeddings_file bio_nlp_vec/PubMed-shuffle-win-2.txt
+python vocab_creator.py -datadir ${data_dir} -outputfile ${data_dir}/AIMed_tokenized.vocab
+python train_keras.py  -data  ${data_dir}/AIMed_tokenized -embeddings_file bio_nlp_vec/PubMed-shuffle-win-2.txt
 
 ```
