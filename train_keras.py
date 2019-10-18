@@ -101,8 +101,8 @@ class FscoreLogCallback(Callback):
         self.logfile = open(filename, 'w')
 
     def on_epoch_end(self, batch, logs={}):
-        predicted = np.argmax(self.model.predict(self.train_data[0]), axis=1)
-        answers = np.argmax(self.train_data[1], axis=1)
+        predicted = np.argmax(self.model.predict(self.validation_data[0]), axis=1)
+        answers = np.argmax(self.validation_data[1], axis=1)
         prec, reca, fscore, sup = precision_recall_fscore_support(answers, predicted, average='binary')
         msg = "Precision:{:2.2f}% Recall:{:2.2f}% Fscore:{:2.2f}%".format(prec*100, reca*100, fscore*100)
         print(msg)
@@ -140,7 +140,8 @@ def main():
         model = build_model()
         print("Fold {}".format(fold_id))
         model.fit(x_train, y_train, epochs=epochs, batch_size=batch_size,
-                  callbacks=[fscore_cb], verbose=2)
+                  #callbacks=[fscore_cb],
+                  verbose=2)
         predicted = np.argmax(model.predict(x_test), axis=1)
         y_test_to_label = np.argmax(y_test, axis=1)
         prec, reca, fscore, sup = precision_recall_fscore_support(y_test_to_label, predicted, average='binary')
