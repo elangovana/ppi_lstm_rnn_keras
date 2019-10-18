@@ -2,7 +2,6 @@ import argparse
 import os
 
 from preprocess import build_vocab_from
-import re
 
 def create_vocab_from_files(dir_path, output_vocab_file):
     sentence = []
