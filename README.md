@@ -20,8 +20,6 @@ Biology-related word embeddings can be downloaded from https://github.com/cambri
 
 
     ```bash
-    pip install -r requirements_cpu.txt
-
     pip install -r requirements_gpu.txt
 
     pip install -r requirements.txt
