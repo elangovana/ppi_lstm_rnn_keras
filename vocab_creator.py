@@ -2,7 +2,7 @@ import argparse
 import os
 
 from preprocess import build_vocab_from
-
+import re
 
 def create_vocab_from_files(dir_path, output_vocab_file):
     sentence = []
@@ -10,7 +10,7 @@ def create_vocab_from_files(dir_path, output_vocab_file):
     for f in filter(lambda f: f.endswith(".txt") and "_f0_" in f, os.listdir(dir_path)):
         with open(os.path.join(dir_path, f), "r") as f:
             for l in f.readlines():
-                sentence.append(l.split(" "))
+                sentence.append( [w.strip("\n").replace("\t", " ") for w in  l.split()])
 
     vocab_dict = build_vocab_from(sentence)
     persist_vocab(vocab_dict, output_vocab_file)

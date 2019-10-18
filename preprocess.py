@@ -23,7 +23,7 @@ def load_vocab_from(file):
     vocab = dict()
     with open(file) as vf:
         for line in vf.readlines():
-            sp_line = line.strip().decode('utf8').split('\t')
+            sp_line = line.strip().split('\t')
             vocab[sp_line[0]] = int(sp_line[1])
     return vocab
 

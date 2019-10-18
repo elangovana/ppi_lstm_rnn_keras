@@ -24,10 +24,10 @@ from sklearn.metrics import precision_recall_fscore_support
 parser = argparse.ArgumentParser(description='train.py')
 parser.add_argument('-data', required=True,
                     help='Prefix to the *_train.txt file.')
-parser.add_argument('-embeddings_dir', required=True,
+parser.add_argument('-embeddings_file', required=True,
                     help='The embeddings dir')
 opt = parser.parse_args()
-pretrained_embeddings_file = os.path.join(opt.embeddings_dir, 'PubMed-shuffle-win-2.txt')
+pretrained_embeddings_file = opt.embeddings_file
 
 # hyperparameters
 epochs = 100
@@ -56,14 +56,14 @@ def load_pretrained_embeddings(vocab, emb_file):
     print("Loading embedding file")
     with open(emb_file) as emf:
         for line in emf.readlines():
-            line_split = line.split()
+            line_split = line.split("\t")
             if len(line_split) == 2: continue
             word = line_split[0]
             if word not in vocab: continue
             embeddings = [float(e) for e in line_split[1:]]
             emb_array[vocab[word]] = embeddings
             seen_words.append(word)
-    for w, _ in vocab.iteritems():
+    for w, _ in vocab.items():
         if w not in seen_words:
             print("{} not found in pretrained embeddings".format(w))
     return emb_array
@@ -132,8 +132,8 @@ def main():
     for fold_id in range(10):
         tfsession = tf.Session(config=tf.ConfigProto(gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.5)))
         K.set_session(tfsession)
-        train_file = 'corpus/{}_f{}_train.txt'.format(opt.data, fold_id)
-        test_file = 'corpus/{}_f{}_test.txt'.format(opt.data, fold_id)
+        train_file = '{}_f{}_train.txt'.format(opt.data, fold_id)
+        test_file = '{}_f{}_test.txt'.format(opt.data, fold_id)
         log_file = '{}_f{}.log'.format(opt.data, fold_id)
         x_train, x_test, y_train, y_test, _ = read_corpus(train_file, test_file, train_vocab)
         fscore_cb = FscoreLogCallback(log_file)
