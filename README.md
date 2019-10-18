@@ -12,15 +12,17 @@ Biology-related word embeddings can be downloaded from https://github.com/cambri
 
 
     ```bash
-    pip install -r requirments.txt
     pip install -r requirments_cpu.txt
+
+    pip install -r requirments.txt
     ```
 1. Install dependencies, for a gpu machine
 
 
     ```bash
-    pip install -r requirments.txt
     pip install -r requirments_gpu.txt
+
+    pip install -r requirments.txt
     ```
     
 ## Create vocab & run
