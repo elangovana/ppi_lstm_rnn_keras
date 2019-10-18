@@ -11,7 +11,7 @@ def build_vocab_from(sentences):
             if w not in vocab_freq:
                 vocab_freq[w] = 0
             vocab_freq[w] += 1
-    vocab_freq = sorted(vocab_freq.items(), key=lambda w, c: c, reverse=True)
+    vocab_freq = sorted(vocab_freq.items(), key=lambda kv: kv[1], reverse=True)
     vocab = dict()
     vocab['__PAD__'] = 0
     for v in vocab_freq:

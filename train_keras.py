@@ -42,7 +42,7 @@ categories = dict([
     ('N', 0),
     ('P', 1),
     ])
-category_keys = [k[0] for k in sorted(categories.items(), key=lambda k, v: v)]
+category_keys = [k[0] for k in sorted(categories.items(), key=lambda kv : kv[1])]
 num_output_class = len(categories)
 
 # embedding array
