@@ -16,7 +16,7 @@ Biology-related word embeddings can be downloaded from https://github.com/cambri
 
     pip install -r requirements.txt
     ```
-1. Install dependencies, for a gpu machine ( **NOTE** GPU utilization is not working.., GPU utilization is zero.....)
+1. Install dependencies, for a gpu machine ( **NOTE** Make sure you have a CUDA version (CUDA 10) that is compatible with the Tensorflow version used)
 
 
     ```bash
